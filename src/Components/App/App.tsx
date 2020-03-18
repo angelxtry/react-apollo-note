@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  RouteComponentProps,
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Notes from '../../Routes/Notes';
 import Note from '../../Routes/Note';
@@ -13,9 +8,7 @@ import Add from '../../Routes/Add';
 import { theme } from '../../style/theme';
 import GlobalStyle from '../../style/globalStyle';
 
-type Props = RouteComponentProps
-
-const App: React.FC<Props> = () => {
+const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
