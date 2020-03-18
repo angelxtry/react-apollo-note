@@ -27,7 +27,6 @@ const Note: React.FC<Props> = () => {
   const { data } = useQuery(GET_NOTE, {
     variables: { id: params.id },
   });
-  console.log({ data, params });
   return data && data.note ? (
     <>
       <TitleComponent>
@@ -36,10 +35,10 @@ const Note: React.FC<Props> = () => {
           <Button>Edit</Button>
         </Link>
       </TitleComponent>
-      <ReactMarkdown source={'# This is a header\n\nAnd this is a paragraph'} />
+      <ReactMarkdown source={data.note.content} />
     </>
   ) : (
-    <ReactMarkdown source={'# This is a header\n\nAnd this is a paragraph'} />
+    null
   );
 };
 
