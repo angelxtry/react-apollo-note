@@ -1,0 +1,9 @@
+overwrite: true
+schema: ./introspection.json
+generates:
+  ./src/types/graph.d.ts:
+    plugins:
+      - typescript
+  ./fragmentTypes.json:
+    plugins:
+      - fragment-matcher

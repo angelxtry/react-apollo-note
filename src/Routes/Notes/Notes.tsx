@@ -4,7 +4,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_NOTES } from '../../queries';
 import Plus from '../../Components/Plus';
-import { NotesRespose } from '../../types/types';
 
 const Header = styled.div`
   margin-bottom: 50px;
@@ -62,7 +61,8 @@ const NoteTitle = styled.span`
 type Props = RouteComponentProps;
 
 const NotesContainer: React.FC<Props> = () => {
-  const { data } = useQuery<NotesRespose>(GET_NOTES);
+  const { loading, data } = useQuery(GET_NOTES);
+  console.log('NotesContainer: ', loading, data);
 
   return (
     <>
@@ -76,13 +76,15 @@ const NotesContainer: React.FC<Props> = () => {
         <Subtitle>Taking notes while we learn.</Subtitle>
       </Header>
       <Notes>
-        {data?.notes.map((note) => (
-          <Link to={`/note/${note.id}`} key={note.id}>
-            <Note>
-              <NoteTitle>{note.title}</NoteTitle>
-            </Note>
-          </Link>
-        ))}
+        {data
+          ? data.notes.map((note: any) => (
+            <Link to={`/note/${note.id}`} key={note.id}>
+              <Note>
+                <NoteTitle>{note.title}</NoteTitle>
+              </Note>
+            </Link>
+            ))
+          : null}
       </Notes>
     </>
   );

@@ -1,15 +1,18 @@
 import gql from 'graphql-tag';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { Resolvers } from 'apollo-client';
 import { NOTE_FRAGMENT } from './fragments';
 import { GET_NOTES } from './queries';
 import { saveNoteAtLocalStorage, loadNoteFromLocalStorage } from './offline';
-import { Note } from './types/graph';
-import { NotesRespose } from './types/types';
 
 export const defaults = {
-  notes: loadNoteFromLocalStorage(),
+  notes: [
+    ...loadNoteFromLocalStorage()
+  ],
 };
+
+// export const defaults = {
+//   notes: loadNoteFromLocalStorage(),
+// };
 
 export const typeDefs = gql`
   type Note {
@@ -18,8 +21,8 @@ export const typeDefs = gql`
     content: String!
   }
   type Query {
-    notes: [Note]!
-    note(id: String!): Note!
+    notes: [Note]
+    note(id: String!): Note
   }
   type Mutation {
     createNote(title: String!, content: String!): Note!
@@ -27,11 +30,11 @@ export const typeDefs = gql`
   }
 `;
 
-export const resolvers: Resolvers = {
+export const resolvers = {
   Query: {
     note: (
       _: undefined,
-      { id }: { id: number },
+      { id }: { id: string},
       { cache }: { cache: InMemoryCache },
     ) => {
       const noteId = `Note:${id}`;
@@ -40,24 +43,27 @@ export const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    createNote: (
-      _: undefined,
-      { note }: { note: Note },
-      { cache }: { cache: InMemoryCache },
-    ) => {
-      const data = cache.readQuery<NotesRespose>({ query: GET_NOTES }) || {
-        notes: [],
-      };
-      const { notes: exNotes } = data;
+    createNote: (_: undefined, args: any, { cache }: any) => {
+      console.log('createNote');
+      console.log(args);
+      const data = cache.readQuery({ query: GET_NOTES }) as any;
+      console.log('createNote: ', data);
+      const notes = [];
+      if (data) {
+        notes.push(...data.notes);
+      }
+      console.log('createNote - readQuery: ', notes);
+      // console.log(exNotes);
       const newNote = {
         __typename: 'Note',
-        title: note.title,
-        content: note.content,
-        id: exNotes.length + 1,
+        title: args.title,
+        content: args.content,
+        id: notes.length + 1,
       };
+      console.log(newNote);
       cache.writeData({
         data: {
-          notes: [newNote, ...exNotes],
+          notes: [newNote, ...notes],
         },
       });
       saveNoteAtLocalStorage(cache);
@@ -65,14 +71,14 @@ export const resolvers: Resolvers = {
     },
     editNote: (
       _: undefined,
-      { id, title, content }: Note,
+      { id, title, content }: { id: number; title: string; content: string },
       { cache }: { cache: InMemoryCache },
     ) => {
-      const noteId = `Note:${id}`;
-      const note = cache.readFragment<Note>({
+      const noteId = `NOTE:${id}`;
+      const note = cache.readFragment({
         fragment: NOTE_FRAGMENT,
         id: noteId,
-      });
+      }) as any[];
       const updateNote = {
         ...note,
         title,

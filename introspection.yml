@@ -1,0 +1,8 @@
+overwrite: true
+generates:
+  ./src/introspection.json:
+    schema: ./src/clientState.ts
+    plugins:
+      - introspection
+    config:
+      minify: false
