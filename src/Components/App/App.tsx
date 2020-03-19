@@ -15,9 +15,9 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Notes} />
-          <Route path="/note/:id" component={Note} />
-          <Route path="/edit:id" component={Edit} />
-          <Route path="/add" component={Add} />
+          <Route exact path="/note/:id" component={Note} />
+          <Route exact path="/edit/:id" component={Edit} />
+          <Route exact path="/add" component={Add} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
