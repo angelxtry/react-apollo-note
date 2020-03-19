@@ -4,13 +4,9 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import Editor from '../../Components/Editor';
 import { GET_NOTE, EDIT_NOTE } from '../../queries';
 import { QueryNoteArgs, MutationEditNoteArgs } from '../../types/graph';
-import { NoteRespose } from '../../types/types';
+import { NoteRespose, Params } from '../../types/types';
 
 type Props = RouteComponentProps;
-
-type Params = {
-  id: string;
-};
 
 const Edit: React.FC<Props> = () => {
   const params = useParams<Params>();
