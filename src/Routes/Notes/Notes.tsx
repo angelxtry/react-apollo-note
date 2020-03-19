@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_NOTES } from '../../queries';
 import Plus from '../../Components/Plus';
+import { NotesRespose } from '../../types/types';
 
 const Header = styled.div`
   margin-bottom: 50px;
@@ -58,32 +59,30 @@ const NoteTitle = styled.span`
   font-size: 20px;
 `;
 
-const NotesContainer: React.FC = () => {
-  const { data } = useQuery(GET_NOTES);
+type Props = RouteComponentProps;
+
+const NotesContainer: React.FC<Props> = () => {
+  const { data } = useQuery<NotesRespose>(GET_NOTES);
 
   return (
     <>
       <Header>
         <Title>
           Nomad Notes
-          <Link to="/add">
-            <Button>
-              <Plus backTo="/" />
-            </Button>
-          </Link>
+          <Button>
+            <Plus goTo="/add" />
+          </Button>
         </Title>
         <Subtitle>Taking notes while we learn.</Subtitle>
       </Header>
       <Notes>
-        {data
-          ? data.notes.map((note: any) => (
-            <Link to={`/note/${note.id}`} key={note.id}>
-              <Note>
-                <NoteTitle>{note.title}</NoteTitle>
-              </Note>
-            </Link>
-            ))
-          : ''}
+        {data?.notes.map((note) => (
+          <Link to={`/note/${note.id}`} key={note.id}>
+            <Note>
+              <NoteTitle>{note.title}</NoteTitle>
+            </Note>
+          </Link>
+        ))}
       </Notes>
     </>
   );
