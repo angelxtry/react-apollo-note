@@ -8,13 +8,13 @@ const Container = styled.div`
 `;
 
 interface Props {
-  backTo: string;
+  goTo: string;
   className?: string;
 }
 
-const Plus: React.FC<Props> = ({ backTo, className }) => (
+const Plus: React.FC<Props> = ({ goTo, className }) => (
   <Container className={className}>
-    <Link to={backTo}>
+    <Link to={goTo}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -28,7 +28,7 @@ const Plus: React.FC<Props> = ({ backTo, className }) => (
 );
 
 Plus.propTypes = {
-  backTo: PropTypes.string.isRequired,
+  goTo: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
