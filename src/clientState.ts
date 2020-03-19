@@ -1,8 +1,7 @@
 import gql from 'graphql-tag';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Resolvers } from 'apollo-client';
-import { NOTE_FRAGMENT } from './fragments';
-import { GET_NOTES } from './queries';
+import { GET_NOTES, NOTE_FRAGMENT } from './queries';
 import { saveNoteAtLocalStorage, loadNoteFromLocalStorage } from './offline';
 import { Note } from './types/graph';
 import { Notes } from './types/types';

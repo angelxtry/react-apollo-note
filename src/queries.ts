@@ -1,5 +1,12 @@
 import gql from 'graphql-tag';
-import { NOTE_FRAGMENT } from './fragments';
+
+export const NOTE_FRAGMENT = gql`
+  fragment NoteParts on Note {
+    id
+    title
+    content
+  }
+`;
 
 export const GET_NOTES = gql`
   {
