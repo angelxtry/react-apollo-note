@@ -4,6 +4,8 @@ import { useParams, Link, RouteComponentProps } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import { GET_NOTE } from '../../queries';
+import { Params, NoteRespose } from '../../types/types';
+import { QueryNoteArgs } from '../../types/graph';
 
 const TitleComponent = styled.div`
   display: flex;
@@ -23,11 +25,11 @@ const Button = styled.button``;
 type Props = RouteComponentProps;
 
 const Note: React.FC<Props> = () => {
-  const params = useParams() as { id: string };
-  const { data } = useQuery(GET_NOTE, {
+  const params = useParams<Params>();
+  const { data } = useQuery<NoteRespose, QueryNoteArgs>(GET_NOTE, {
     variables: { id: params.id },
   });
-  return data && data.note ? (
+  return data?.note ? (
     <>
       <TitleComponent>
         <Title>{data.note && data.note.title}</Title>
@@ -38,7 +40,7 @@ const Note: React.FC<Props> = () => {
       <ReactMarkdown source={data.note.content} />
     </>
   ) : (
-    null
+    <div>Note not found</div>
   );
 };
 
