@@ -18,7 +18,7 @@
     "apollo-link-state": "^0.4.2",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
